@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse Shri Multy Services photos and videos, and download our visiting card.">
+  <title>Photos, Videos &amp; Visiting Card | Shri Multy Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17213a;
+      --muted: #667085;
+      --orange: #e8751a;
+      --gold: #f5d76d;
+      --paper: #fffdf4;
+      --line: #e8dfc7;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fff9e4;
+      color: var(--ink);
+      font: 16px/1.6 "DM Sans", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .topbar {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner, main, footer {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+    .topbar-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font: 800 15px/1.25 Manrope, sans-serif;
+    }
+    .brand img { width: 48px; height: 48px; object-fit: contain; }
+    .brand small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font: 500 10px/1.3 Inter, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .home-link { color: var(--orange); font-weight: 700; }
+    main { padding: 64px 0 84px; }
+    .intro { max-width: 720px; margin-bottom: 30px; }
+    .eyebrow {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1, h2 { font-family: Manrope, sans-serif; }
+    h1 { margin: 10px 0; font-size: clamp(32px, 5vw, 48px); line-height: 1.15; }
+    .intro p { margin: 0; color: var(--muted); }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 16px;
+    }
+    .tab {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 18px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .tab[aria-selected="true"] {
+      border-color: var(--orange);
+      background: var(--orange);
+      color: #fff;
+    }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .photo-section-title { margin: 0 0 18px; font-size: 24px; }
+    .archive-heading { margin: 48px 0 18px; }
+    .archive-heading h2 { margin: 0; font-size: 26px; }
+    .archive-heading p { margin: 6px 0 0; color: var(--muted); }
+    .project-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .project-grid .media-card img { aspect-ratio: 4 / 3; }
+    .project-grid .media-card figcaption { min-height: 88px; padding: 12px 14px; }
+    .project-grid .media-card strong { font-size: 14px; line-height: 1.4; }
+    .project-category { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+    .media-card, .visiting-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(48, 41, 18, .07);
+    }
+    .media-card img, .media-card video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #eee8d8;
+      object-fit: cover;
+    }
+    .media-card figcaption { padding: 15px 17px 18px; }
+    .media-card strong { display: block; font-size: 15px; }
+    .media-card time { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; }
+    figure { margin: 0; }
+    .video-grid { grid-template-columns: minmax(0, 760px); }
+    .video-grid .media-card video { aspect-ratio: 16 / 9; }
+    .video-actions { margin-top: 12px; }
+    .sound-toggle { cursor: pointer; font: inherit; }
+    .video-status {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .video-local-notice {
+      margin: 0 0 20px;
+      padding: 14px 18px;
+      border-left: 4px solid var(--orange);
+      border-radius: 8px;
+      background: #fff3d4;
+      color: var(--ink);
+      font-size: 14px;
+    }
+    .card-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 420px) minmax(260px, 1fr);
+      align-items: center;
+      gap: 38px;
+    }
+    .visiting-card { padding: 12px; }
+    .visiting-card img { width: 100%; height: auto; border-radius: 8px; }
+    .card-copy h2 { margin: 0 0 10px; font-size: 26px; }
+    .card-copy p { margin: 0 0 22px; color: var(--muted); }
+    .downloads { display: flex; flex-wrap: wrap; gap: 12px; }
+    .download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 17px;
+      border: 1px solid var(--orange);
+      border-radius: 7px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+    }
+    .download.secondary { background: transparent; color: var(--orange); }
+    .archive-link {
+      display: inline-flex;
+      gap: 9px;
+      margin-top: 38px;
+      color: var(--orange);
+      font-weight: 700;
+    }
+    footer {
+      padding: 22px 0 32px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid #1c66c2; outline-offset: 3px; }
+
+    @media (max-width: 760px) {
+      .media-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+      .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+      .visiting-card { max-width: 420px; }
+    }
+    @media (max-width: 520px) {
+      .topbar-inner, main, footer { width: min(100% - 28px, 1120px); }
+      .topbar-inner { min-height: 68px; }
+      .brand img { width: 40px; height: 40px; }
+      .brand { gap: 8px; font-size: 13px; }
+      main { padding: 42px 0 58px; }
+      .media-grid { grid-template-columns: minmax(0, 1fr); }
+      .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .tabs { gap: 8px; }
+      .tab { padding: 9px 13px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="">
+        <span>SHRI MULTY SERVICES<small>Advertising Material Provider</small></span>
+      </a>
+      <a class="home-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <span class="eyebrow">From the field</span>
+      <h1>Photos, videos &amp; our visiting card</h1>
+      <p>Browse our recent uploads and the named project-photo archive, or download the visiting card to keep our contact details handy.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Media library">
+      <button class="tab" id="photos-tab" type="button" role="tab" aria-controls="photos-panel" aria-selected="false" data-panel="photos-panel" tabindex="-1">Photos <span>(108)</span></button>
+      <button class="tab" id="videos-tab" type="button" role="tab" aria-controls="videos-panel" aria-selected="true" data-panel="videos-panel">Videos <span>(3)</span></button>
+      <button class="tab" id="card-tab" type="button" role="tab" aria-controls="card-panel" aria-selected="false" data-panel="card-panel" tabindex="-1">Visiting Card</button>
+    </div>
+
+    <section id="photos-panel" role="tabpanel" aria-labelledby="photos-tab" hidden>
+      <h2 class="photo-section-title">Recent Photos</h2>
+      <div class="media-grid">
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.07.03%20PM.jpeg" alt="Shri Multy Services field photo, image 1" loading="lazy">
+          <figcaption><strong>Field photo 1</strong><time datetime="2026-11-23T16:07:03">November 23, 2026 · 4:07:03 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.07.03%20PM%20(1).jpeg" alt="Shri Multy Services field photo, image 2" loading="lazy">
+          <figcaption><strong>Field photo 2</strong><time datetime="2026-11-23T16:07:03">November 23, 2026 · 4:07:03 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.15.34%20PM.jpeg" alt="Shri Multy Services field photo, image 3" loading="lazy">
+          <figcaption><strong>Field photo 3</strong><time datetime="2026-11-23T16:15:34">November 23, 2026 · 4:15:34 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.15.34%20PM%20(1).jpeg" alt="Shri Multy Services field photo, image 4" loading="lazy">
+          <figcaption><strong>Field photo 4</strong><time datetime="2026-11-23T16:15:34">November 23, 2026 · 4:15:34 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.25.37%20PM.jpeg" alt="Shri Multy Services field photo, image 5" loading="lazy">
+          <figcaption><strong>Field photo 5</strong><time datetime="2026-11-23T16:25:37">November 23, 2026 · 4:25:37 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.25.37%20PM%20(1).jpeg" alt="Shri Multy Services field photo, image 6" loading="lazy">
+          <figcaption><strong>Field photo 6</strong><time datetime="2026-11-23T16:25:37">November 23, 2026 · 4:25:37 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Image%202026-11-23%20at%204.25.37%20PM%20(2).jpeg" alt="Shri Multy Services field photo, image 7" loading="lazy">
+          <figcaption><strong>Field photo 7</strong><time datetime="2026-11-23T16:25:37">November 23, 2026 · 4:25:37 PM</time></figcaption>
+        </figure>
+      </div>
+      <div class="archive-heading">
+        <h2>Additional Photos (45)</h2>
+        <p>More photos uploaded on November 23, 2026.</p>
+      </div>
+      <div class="media-grid new-photo-grid">
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.24%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:24 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:24 PM</strong><time datetime="2026-11-23T21:57:24">November 23, 2026 · 9:57:24 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.26%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:26 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:26 PM</strong><time datetime="2026-11-23T21:57:26">November 23, 2026 · 9:57:26 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.27%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:27 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:27 PM</strong><time datetime="2026-11-23T21:57:27">November 23, 2026 · 9:57:27 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.29%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:29 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:29 PM</strong><time datetime="2026-11-23T21:57:29">November 23, 2026 · 9:57:29 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.29%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:29 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:29 PM (2)</strong><time datetime="2026-11-23T21:57:29">November 23, 2026 · 9:57:29 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.30%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:30 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:30 PM</strong><time datetime="2026-11-23T21:57:30">November 23, 2026 · 9:57:30 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.31%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:31 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:31 PM</strong><time datetime="2026-11-23T21:57:31">November 23, 2026 · 9:57:31 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.31%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:31 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:31 PM (2)</strong><time datetime="2026-11-23T21:57:31">November 23, 2026 · 9:57:31 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.32%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:32 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:32 PM</strong><time datetime="2026-11-23T21:57:32">November 23, 2026 · 9:57:32 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.32%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:32 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:32 PM (2)</strong><time datetime="2026-11-23T21:57:32">November 23, 2026 · 9:57:32 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.34%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:34 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:34 PM</strong><time datetime="2026-11-23T21:57:34">November 23, 2026 · 9:57:34 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.34%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:34 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:34 PM (2)</strong><time datetime="2026-11-23T21:57:34">November 23, 2026 · 9:57:34 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.35%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:35 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:35 PM</strong><time datetime="2026-11-23T21:57:35">November 23, 2026 · 9:57:35 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.36%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:36 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:36 PM</strong><time datetime="2026-11-23T21:57:36">November 23, 2026 · 9:57:36 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.36%20PM%20%282%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:36 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:36 PM (2)</strong><time datetime="2026-11-23T21:57:36">November 23, 2026 · 9:57:36 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.36%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:36 PM (3)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:36 PM (3)</strong><time datetime="2026-11-23T21:57:36">November 23, 2026 · 9:57:36 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.37%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:37 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:37 PM</strong><time datetime="2026-11-23T21:57:37">November 23, 2026 · 9:57:37 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.38%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:38 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:38 PM</strong><time datetime="2026-11-23T21:57:38">November 23, 2026 · 9:57:38 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.38%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:38 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:38 PM (2)</strong><time datetime="2026-11-23T21:57:38">November 23, 2026 · 9:57:38 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.39%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:39 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:39 PM</strong><time datetime="2026-11-23T21:57:39">November 23, 2026 · 9:57:39 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.41%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:41 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:41 PM</strong><time datetime="2026-11-23T21:57:41">November 23, 2026 · 9:57:41 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.42%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:42 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:42 PM</strong><time datetime="2026-11-23T21:57:42">November 23, 2026 · 9:57:42 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.44%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:44 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:44 PM</strong><time datetime="2026-11-23T21:57:44">November 23, 2026 · 9:57:44 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.45%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:45 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:45 PM</strong><time datetime="2026-11-23T21:57:45">November 23, 2026 · 9:57:45 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.57.58%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:57:58 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:57:58 PM</strong><time datetime="2026-11-23T21:57:58">November 23, 2026 · 9:57:58 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.01%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:01 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:01 PM</strong><time datetime="2026-11-23T21:58:01">November 23, 2026 · 9:58:01 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.02%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:02 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:02 PM</strong><time datetime="2026-11-23T21:58:02">November 23, 2026 · 9:58:02 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.03%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:03 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:03 PM</strong><time datetime="2026-11-23T21:58:03">November 23, 2026 · 9:58:03 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.04%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:04 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:04 PM</strong><time datetime="2026-11-23T21:58:04">November 23, 2026 · 9:58:04 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.04%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:04 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:04 PM (2)</strong><time datetime="2026-11-23T21:58:04">November 23, 2026 · 9:58:04 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.05%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:05 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:05 PM</strong><time datetime="2026-11-23T21:58:05">November 23, 2026 · 9:58:05 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.06%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:06 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:06 PM</strong><time datetime="2026-11-23T21:58:06">November 23, 2026 · 9:58:06 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.07%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:07 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:07 PM</strong><time datetime="2026-11-23T21:58:07">November 23, 2026 · 9:58:07 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.08%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:08 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:08 PM</strong><time datetime="2026-11-23T21:58:08">November 23, 2026 · 9:58:08 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.08%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:08 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:08 PM (2)</strong><time datetime="2026-11-23T21:58:08">November 23, 2026 · 9:58:08 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.09%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:09 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:09 PM</strong><time datetime="2026-11-23T21:58:09">November 23, 2026 · 9:58:09 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.10%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:10 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:10 PM</strong><time datetime="2026-11-23T21:58:10">November 23, 2026 · 9:58:10 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.10%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:10 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:10 PM (2)</strong><time datetime="2026-11-23T21:58:10">November 23, 2026 · 9:58:10 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.11%20PM%20%281%29.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:11 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:11 PM</strong><time datetime="2026-11-23T21:58:11">November 23, 2026 · 9:58:11 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.11%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:11 PM (2)" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:11 PM (2)</strong><time datetime="2026-11-23T21:58:11">November 23, 2026 · 9:58:11 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.12%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:12 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:12 PM</strong><time datetime="2026-11-23T21:58:12">November 23, 2026 · 9:58:12 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.13%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:13 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:13 PM</strong><time datetime="2026-11-23T21:58:13">November 23, 2026 · 9:58:13 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.14%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:14 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:14 PM</strong><time datetime="2026-11-23T21:58:14">November 23, 2026 · 9:58:14 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.15%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:15 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:15 PM</strong><time datetime="2026-11-23T21:58:15">November 23, 2026 · 9:58:15 PM</time></figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Image%202026-11-23%20at%209.58.16%20PM.jpeg" alt="Shri Multy Services photo captured November 23, 2026 at 9:58:16 PM" loading="lazy">
+          <figcaption><strong>WhatsApp photo · 9:58:16 PM</strong><time datetime="2026-11-23T21:58:16">November 23, 2026 · 9:58:16 PM</time></figcaption>
+        </figure>
+      </div>
+      <div class="archive-heading">
+        <h2>Project Photo Archive</h2>
+        <p>Existing project photos, kept with their original names and categories.</p>
+      </div>
+      <div class="media-grid project-grid">
+                <figure class="media-card project-photo"><img src="project-photos/project-01.jpg" alt="L Shape Customize — Nuziveedu Seeds" loading="lazy"><figcaption><strong>L Shape Customize — Nuziveedu Seeds</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-02.jpg" alt="L Shape Customize — Bayer DEKALB" loading="lazy"><figcaption><strong>L Shape Customize — Bayer DEKALB</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-03.jpg" alt="L Shape Customize — Cotton Seed Van" loading="lazy"><figcaption><strong>L Shape Customize — Cotton Seed Van</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-04.jpg" alt="LED Demo Van — Bayer" loading="lazy"><figcaption><strong>LED Demo Van — Bayer</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-05.jpg" alt="Demo Van — Bharat Certis" loading="lazy"><figcaption><strong>Demo Van — Bharat Certis</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-06.jpg" alt="Customize Van — Yara" loading="lazy"><figcaption><strong>Customize Van — Yara</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-07.jpg" alt="Hut Shape — Coromandel" loading="lazy"><figcaption><strong>Hut Shape — Coromandel</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-08.jpg" alt="L Shape Customize — Rasi Seeds" loading="lazy"><figcaption><strong>L Shape Customize — Rasi Seeds</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-09.jpg" alt="L Shape Customize — Biostadt Pyankor" loading="lazy"><figcaption><strong>L Shape Customize — Biostadt Pyankor</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-10.jpg" alt="L Shape Customize — Mahaanagri" loading="lazy"><figcaption><strong>L Shape Customize — Mahaanagri</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-11.jpg" alt="L Shape — Rama Sampurna" loading="lazy"><figcaption><strong>L Shape — Rama Sampurna</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-12.jpg" alt="Customize Van — Mahyco Passion+" loading="lazy"><figcaption><strong>Customize Van — Mahyco Passion+</strong><span class="project-category">Van Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-13.jpg" alt="T Shape Van — TVS Jupiter" loading="lazy"><figcaption><strong>T Shape Van — TVS Jupiter</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-14.jpg" alt="Customized Van — StarCity" loading="lazy"><figcaption><strong>Customized Van — StarCity</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-15.jpg" alt="Customized Van — TVS Apache" loading="lazy"><figcaption><strong>Customized Van — TVS Apache</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-16.jpg" alt="LED Demo Van — TVS Raider" loading="lazy"><figcaption><strong>LED Demo Van — TVS Raider</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-17.jpg" alt="Auto Rickshaw Branding — TVS Raider" loading="lazy"><figcaption><strong>Auto Rickshaw Branding — TVS Raider</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-18.jpg" alt="Big Mela Display Setup" loading="lazy"><figcaption><strong>Big Mela Display Setup</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-19.jpg" alt="Mela Activity" loading="lazy"><figcaption><strong>Mela Activity</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-20.jpg" alt="Glow Sign Hoarding — TVS Raider" loading="lazy"><figcaption><strong>Glow Sign Hoarding — TVS Raider</strong><span class="project-category">TVS Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-21.jpg" alt="Non Light Board — Yara Crop Nutrition Centre" loading="lazy"><figcaption><strong>Non Light Board — Yara Crop Nutrition Centre</strong><span class="project-category">Shop Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-22.jpg" alt="Shop Branding — Parshvanath Agritek" loading="lazy"><figcaption><strong>Shop Branding — Parshvanath Agritek</strong><span class="project-category">Shop Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-23.jpg" alt="Fix &amp; Rotating Board — Gromor" loading="lazy"><figcaption><strong>Fix &amp; Rotating Board — Gromor</strong><span class="project-category">Shop Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-24.jpg" alt="Shop Wall Branding — Yara Premium" loading="lazy"><figcaption><strong>Shop Wall Branding — Yara Premium</strong><span class="project-category">Shop Branding</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-25.jpg" alt="Glow Sign Board — Coromandel" loading="lazy"><figcaption><strong>Glow Sign Board — Coromandel</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-26.jpg" alt="Fix Hoarding" loading="lazy"><figcaption><strong>Fix Hoarding</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-27.jpg" alt="Frame Board — Dyuk Energy" loading="lazy"><figcaption><strong>Frame Board — Dyuk Energy</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-28.jpg" alt="Arch Gate — Better Life Farming" loading="lazy"><figcaption><strong>Arch Gate — Better Life Farming</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-29.jpg" alt="Acrylic Board — ICL Gayatri Krushi Seva Kendra" loading="lazy"><figcaption><strong>Acrylic Board — ICL Gayatri Krushi Seva Kendra</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-30.jpg" alt="Fix Vinyl Board — Vestoria" loading="lazy"><figcaption><strong>Fix Vinyl Board — Vestoria</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-31.jpg" alt="Frame Board — Yara Sugarcane" loading="lazy"><figcaption><strong>Frame Board — Yara Sugarcane</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-32.jpg" alt="Frame Board — Eicher Tractor Prima" loading="lazy"><figcaption><strong>Frame Board — Eicher Tractor Prima</strong><span class="project-category">Hoardings &amp; Boards</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-33.jpg" alt="Organize Meeting — Vigour Annual Meet" loading="lazy"><figcaption><strong>Organize Meeting — Vigour Annual Meet</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-34.jpg" alt="Organize Meeting — Corteva Roots" loading="lazy"><figcaption><strong>Organize Meeting — Corteva Roots</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-35.jpg" alt="Organize Meeting — Stage Setup" loading="lazy"><figcaption><strong>Organize Meeting — Stage Setup</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-36.jpg" alt="Selfie Display — Corteva" loading="lazy"><figcaption><strong>Selfie Display — Corteva</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-37.jpg" alt="Selfie Point — Syngenta Crop Show" loading="lazy"><figcaption><strong>Selfie Point — Syngenta Crop Show</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-38.jpg" alt="Entry Gate — Syngenta Vegetable Seeds" loading="lazy"><figcaption><strong>Entry Gate — Syngenta Vegetable Seeds</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-39.jpg" alt="Field Decoration — Crop Show" loading="lazy"><figcaption><strong>Field Decoration — Crop Show</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-40.jpg" alt="Customer Experience Centre — Syngenta" loading="lazy"><figcaption><strong>Customer Experience Centre — Syngenta</strong><span class="project-category">Meetings &amp; Events</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-41.jpg" alt="Customize Stall — Coromandel International" loading="lazy"><figcaption><strong>Customize Stall — Coromandel International</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-42.jpg" alt="Customize Stall — Vigour Biotech" loading="lazy"><figcaption><strong>Customize Stall — Vigour Biotech</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-43.jpg" alt="Customize Stall — IFFCO" loading="lazy"><figcaption><strong>Customize Stall — IFFCO</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-44.jpg" alt="Fabric Stall — Bayer CropScience" loading="lazy"><figcaption><strong>Fabric Stall — Bayer CropScience</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-45.jpg" alt="Fabric Stall — Parijat Industries" loading="lazy"><figcaption><strong>Fabric Stall — Parijat Industries</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-46.jpg" alt="Customize Stall — Gharda Chemicals" loading="lazy"><figcaption><strong>Customize Stall — Gharda Chemicals</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-47.jpg" alt="Customize Stall — Indofil Industries" loading="lazy"><figcaption><strong>Customize Stall — Indofil Industries</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-48.jpg" alt="Customize Stall — Biostadt" loading="lazy"><figcaption><strong>Customize Stall — Biostadt</strong><span class="project-category">Agro Expo</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-49.jpg" alt="Roll Up Standee" loading="lazy"><figcaption><strong>Roll Up Standee</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-50.jpg" alt="Non Oven Bag Printing" loading="lazy"><figcaption><strong>Non Oven Bag Printing</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-51.jpg" alt="Tape &amp; Bunting" loading="lazy"><figcaption><strong>Tape &amp; Bunting</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-52.jpg" alt="Trophies &amp; Awards" loading="lazy"><figcaption><strong>Trophies &amp; Awards</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-53.jpg" alt="Display Branding — Acrylic Signage" loading="lazy"><figcaption><strong>Display Branding — Acrylic Signage</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-54.jpg" alt="Garden Umbrella Branding" loading="lazy"><figcaption><strong>Garden Umbrella Branding</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-55.jpg" alt="Feather Flags" loading="lazy"><figcaption><strong>Feather Flags</strong><span class="project-category">Materials</span></figcaption></figure>
+        <figure class="media-card project-photo"><img src="project-photos/project-56.jpg" alt="Branded T-Shirts &amp; Caps" loading="lazy"><figcaption><strong>Branded T-Shirts &amp; Caps</strong><span class="project-category">Materials</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section id="videos-panel" role="tabpanel" aria-labelledby="videos-tab">
+      <p class="video-local-notice" id="video-local-notice" hidden>
+        This page is opened as a local file. Your browser may block video and audio playback; start run-local.bat or use the hosted website instead.
+      </p>
+      <div class="media-grid video-grid">
+        <figure class="media-card">
+          <video controls playsinline preload="auto" autoplay muted>
+            <source src="Photoes/WhatsApp%20Video%202026-11-23%20at%203.59.55%20PM.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption><strong>Field video</strong><time datetime="2026-11-23T15:59:55">November 23, 2026 · 3:59:55 PM</time>
+            <div class="downloads video-actions">
+              <button class="download secondary sound-toggle" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span>Enable sound</span></button>
+              <a class="download secondary" href="Photoes/WhatsApp%20Video%202026-11-23%20at%203.59.55%20PM.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
+              <a class="download" href="Photoes/WhatsApp%20Video%202026-11-23%20at%203.59.55%20PM.mp4" download="Shri-Multy-Services-Field-Video-3-59-55-PM.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
+            </div>
+            <p class="video-status" aria-live="polite" hidden></p>
+          </figcaption>
+        </figure>
+        <figure class="media-card">
+          <video controls playsinline preload="metadata" muted>
+            <source src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.52.42%20PM.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption><strong>Field video · 9:52:42 PM</strong><time datetime="2026-11-23T21:52:42">November 23, 2026 · 9:52:42 PM</time>
+            <div class="downloads video-actions">
+              <button class="download secondary sound-toggle" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span>Enable sound</span></button>
+              <a class="download secondary" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.52.42%20PM.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
+              <a class="download" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.52.42%20PM.mp4" download="Shri-Multy-Services-Field-Video-9-52-42-PM.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
+            </div>
+            <p class="video-status" aria-live="polite" hidden></p>
+          </figcaption>
+        </figure>
+        <figure class="media-card">
+          <video controls playsinline preload="metadata" muted>
+            <source src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.57.21%20PM.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption><strong>Field video · 9:57:21 PM</strong><time datetime="2026-11-23T21:57:21">November 23, 2026 · 9:57:21 PM</time>
+            <div class="downloads video-actions">
+              <button class="download secondary sound-toggle" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span>Enable sound</span></button>
+              <a class="download secondary" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.57.21%20PM.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
+              <a class="download" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.57.21%20PM.mp4" download="Shri-Multy-Services-Field-Video-9-57-21-PM.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
+            </div>
+            <p class="video-status" aria-live="polite" hidden></p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="card-panel" role="tabpanel" aria-labelledby="card-tab" hidden>
+      <div class="card-layout">
+        <div class="visiting-card">
+          <img src="Visiting%20card/00100.png" alt="Shri Multy Services visiting card, front and back">
+        </div>
+        <div class="card-copy">
+          <span class="eyebrow">Save our contact details</span>
+          <h2>Shri Multy Services visiting card</h2>
+          <p>Download the supplied card artwork in PNG or JPEG format.</p>
+          <div class="downloads">
+            <a class="download" href="Visiting%20card/00100.png" download="Shri-Multy-Services-Visiting-Card.png"><i class="fa-solid fa-download"></i> Download PNG</a>
+            <a class="download secondary" href="Visiting%20card/0000202.jpg.jpeg" download="Shri-Multy-Services-Visiting-Card.jpeg"><i class="fa-solid fa-download"></i> Download JPEG</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a class="archive-link" href="index.html?gallery-only=1#gallery"><i class="fa-solid fa-images"></i> Browse the existing project gallery</a>
+  </main>
+
+  <footer>Shri Multy Services · Amravati, Maharashtra</footer>
+
+  <script>
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const videos = Array.from(document.querySelectorAll('.video-grid video'));
+    const soundButtons = new Map(videos.map((video) => [video, video.closest('figure').querySelector('.sound-toggle')]));
+    const videoStatuses = new Map(videos.map((video) => [video, video.closest('figure').querySelector('.video-status')]));
+    const setVideoStatus = (video, message = '') => {
+      const status = videoStatuses.get(video);
+      status.textContent = message;
+      status.hidden = !message;
+    };
+    const updateSoundButton = (video) => {
+      const button = soundButtons.get(video);
+      const isMuted = video.muted || video.volume === 0;
+      button.setAttribute('aria-pressed', String(!isMuted));
+      button.setAttribute('aria-label', `${isMuted ? 'Enable' : 'Mute'} sound for ${video.closest('figure').querySelector('strong').textContent}`);
+      button.querySelector('i').className = `fa-solid ${isMuted ? 'fa-volume-xmark' : 'fa-volume-high'}`;
+      button.querySelector('span').textContent = isMuted ? 'Enable sound' : 'Mute sound';
+    };
+    const startVideo = async (video, muted = true) => {
+      videos.forEach((otherVideo) => {
+        if (otherVideo === video) return;
+        otherVideo.pause();
+        otherVideo.muted = true;
+        updateSoundButton(otherVideo);
+      });
+      video.muted = muted;
+      if (!muted && video.volume === 0) video.volume = 1;
+      updateSoundButton(video);
+      try {
+        await video.play();
+        setVideoStatus(video);
+      } catch (error) {
+        const message = error.name === 'NotAllowedError'
+          ? 'Autoplay was blocked. Press Play to start; click Enable sound to hear audio.'
+          : 'This video could not start. Check the connection or use Open video player.';
+        setVideoStatus(video, message);
+      }
+    };
+
+    videos.forEach((video) => {
+      const button = soundButtons.get(video);
+      video.addEventListener('play', () => {
+        videos.forEach((otherVideo) => {
+          if (otherVideo === video) return;
+          otherVideo.pause();
+          otherVideo.muted = true;
+          updateSoundButton(otherVideo);
+        });
+        setVideoStatus(video);
+      });
+      video.addEventListener('volumechange', () => updateSoundButton(video));
+      video.addEventListener('error', () => setVideoStatus(video, 'This video could not load. Check the file or connection.'));
+      button.addEventListener('click', () => {
+        if (video.muted || video.volume === 0) {
+          startVideo(video, false);
+        } else {
+          video.muted = true;
+          updateSoundButton(video);
+        }
+      });
+      updateSoundButton(video);
+    });
+
+    const selectTab = (tab) => {
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+        document.getElementById(item.dataset.panel).hidden = !selected;
+      });
+      if (tab.dataset.panel === 'videos-panel') {
+        const activeVideo = videos.find((video) => !video.paused && !video.ended) || videos[0];
+        if (activeVideo.paused) startVideo(activeVideo);
+      } else {
+        videos.forEach((video) => video.pause());
+      }
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        const step = event.key === 'ArrowRight' ? 1 : -1;
+        const nextTab = tabs[(index + step + tabs.length) % tabs.length];
+        selectTab(nextTab);
+        nextTab.focus();
+      });
+    });
+
+    if (window.location.protocol === 'file:') {
+      document.getElementById('video-local-notice').hidden = false;
+    }
+
+    const initialTab = window.location.hash === '#visiting-card'
+      ? document.getElementById('card-tab')
+      : window.location.hash === '#photos'
+        ? document.getElementById('photos-tab')
+        : document.getElementById('videos-tab');
+    selectTab(initialTab);
+  </script>
+</body>
+</html>
