@@ -848,8 +848,23 @@ html.gallery-only body > :not(#gallery):not(#lightbox):not(style) { display: non
 </section>
 
 <style>
-.clients-frame{padding:22px;max-width:920px;margin:0 auto;}
+.clients-frame{padding:22px;max-width:920px;margin:0 auto;overflow:hidden;}
 .clients-frame img{border-radius:6px;}
+.clients-logo-track{
+  display:flex;
+  width:200%;
+  animation:clientLogoMarquee 32s linear infinite;
+  will-change:transform;
+}
+.clients-logo-track img{width:50%;max-width:none;flex:0 0 50%;}
+.clients-frame:hover .clients-logo-track,
+.clients-frame:focus-within .clients-logo-track{animation-play-state:paused;}
+@keyframes clientLogoMarquee{to{transform:translateX(-50%);}}
+@media(prefers-reduced-motion:reduce){
+  .clients-logo-track{width:100%;animation:none;will-change:auto;}
+  .clients-logo-track img{width:100%;flex-basis:100%;}
+  .clients-logo-track img[aria-hidden="true"]{display:none;}
+}
 
 .marquee-wrap{
   margin-top:44px;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
@@ -1532,6 +1547,16 @@ document.addEventListener('keydown',(e)=>{
 });
 
 /* ===== Footer year ===== */
+const clientLogo=document.querySelector('.clients-frame img');
+if(clientLogo){
+  const logoTrack=document.createElement('div');
+  logoTrack.className='clients-logo-track';
+  const duplicateLogo=clientLogo.cloneNode();
+  duplicateLogo.alt='';
+  duplicateLogo.setAttribute('aria-hidden','true');
+  clientLogo.parentNode.insertBefore(logoTrack,clientLogo);
+  logoTrack.append(clientLogo,duplicateLogo);
+}
 document.getElementById('year').textContent=new Date().getFullYear();
 </script>
 </body>
