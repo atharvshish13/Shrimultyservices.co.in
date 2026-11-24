@@ -144,6 +144,70 @@
       color: var(--ink);
       font-size: 14px;
     }
+    .photo-open {
+      display: block;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      background: transparent;
+      cursor: zoom-in;
+    }
+    .photo-open img { transition: transform .25s ease; }
+    .photo-open:hover img { transform: scale(1.04); }
+    .media-error .photo-open::after {
+      content: "Photo could not be loaded";
+      display: block;
+      padding: 16px;
+      color: var(--muted);
+    }
+    .media-lightbox {
+      width: min(94vw, 1200px);
+      max-width: none;
+      max-height: 92vh;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 14px;
+      background: #111827;
+      color: #fff;
+    }
+    .media-lightbox::backdrop { background: rgba(5, 9, 17, .88); }
+    .lightbox-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .lightbox-caption { margin: 0; font-weight: 700; }
+    .lightbox-controls { display: flex; gap: 8px; }
+    .lightbox-controls button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #667085;
+      border-radius: 8px;
+      background: #263248;
+      color: #fff;
+      cursor: pointer;
+      font-size: 24px;
+    }
+    .lightbox-controls button:disabled { opacity: .45; cursor: default; }
+    .lightbox-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 76vh;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 74vh;
+      object-fit: contain;
+      transform-origin: center;
+      transition: transform .15s ease;
+    }
+    .lightbox-hint { margin: 10px 0 0; color: #d0d5dd; font-size: 13px; }
     .card-layout {
       display: grid;
       grid-template-columns: minmax(220px, 420px) minmax(260px, 1fr);
@@ -151,7 +215,7 @@
       gap: 38px;
     }
     .visiting-card { padding: 12px; }
-    .visiting-card img { width: 100%; height: auto; border-radius: 8px; }
+    .visiting-card img { display: block; width: 100%; height: auto; max-height: 260px; object-fit: contain; border-radius: 8px; }
     .card-copy h2 { margin: 0 0 10px; font-size: 26px; }
     .card-copy p { margin: 0 0 22px; color: var(--muted); }
     .downloads { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -219,12 +283,13 @@
     <div class="intro">
       <span class="eyebrow">From the field</span>
       <h1>Photos, videos &amp; our visiting card</h1>
-      <p>Browse our recent uploads and the named project-photo archive, or download the visiting card to keep our contact details handy.</p>
+      <p>Browse our latest photos and video, open photos to zoom in or out, or view the visiting card.</p>
+      <a class="download" href="SMS%20FULL%202026.pdf" download="SMS-FULL-2026.pdf"><i class="fa-solid fa-download"></i> Download 2026 brochure</a>
     </div>
 
     <div class="tabs" role="tablist" aria-label="Media library">
-      <button class="tab" id="photos-tab" type="button" role="tab" aria-controls="photos-panel" aria-selected="false" data-panel="photos-panel" tabindex="-1">Photos <span>(108)</span></button>
-      <button class="tab" id="videos-tab" type="button" role="tab" aria-controls="videos-panel" aria-selected="true" data-panel="videos-panel">Videos <span>(3)</span></button>
+      <button class="tab" id="photos-tab" type="button" role="tab" aria-controls="photos-panel" aria-selected="false" data-panel="photos-panel" tabindex="-1">Photos <span>(110)</span></button>
+      <button class="tab" id="videos-tab" type="button" role="tab" aria-controls="videos-panel" aria-selected="true" data-panel="videos-panel">Videos <span>(1)</span></button>
       <button class="tab" id="card-tab" type="button" role="tab" aria-controls="card-panel" aria-selected="false" data-panel="card-panel" tabindex="-1">Visiting Card</button>
     </div>
 
@@ -512,47 +577,21 @@
 
     <section id="videos-panel" role="tabpanel" aria-labelledby="videos-tab">
       <p class="video-local-notice" id="video-local-notice" hidden>
-        This page is opened as a local file. Your browser may block video and audio playback; start run-local.bat or use the hosted website instead.
+        This page is opened as a local file. Your browser may block video playback; start run-local.bat or use the hosted website instead.
       </p>
       <div class="media-grid video-grid">
         <figure class="media-card">
-          <video controls playsinline preload="auto" autoplay muted>
-            <source src="Photoes/WhatsApp%20Video%202026-11-23%20at%203.59.55%20PM.mp4" type="video/mp4">
-            Your browser does not support embedded video.
-          </video>
-          <figcaption><strong>Field video</strong><time datetime="2026-11-23T15:59:55">November 23, 2026 · 3:59:55 PM</time>
-            <div class="downloads video-actions">
-              <button class="download secondary sound-toggle" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span>Enable sound</span></button>
-              <a class="download secondary" href="Photoes/WhatsApp%20Video%202026-11-23%20at%203.59.55%20PM.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
-              <a class="download" href="Photoes/WhatsApp%20Video%202026-11-23%20at%203.59.55%20PM.mp4" download="Shri-Multy-Services-Field-Video-3-59-55-PM.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
-            </div>
-            <p class="video-status" aria-live="polite" hidden></p>
-          </figcaption>
-        </figure>
-        <figure class="media-card">
           <video controls playsinline preload="metadata" muted>
-            <source src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.52.42%20PM.mp4" type="video/mp4">
+            <source src="Photoes/Skit%20Activity.mp4" type="video/mp4">
             Your browser does not support embedded video.
           </video>
-          <figcaption><strong>Field video · 9:52:42 PM</strong><time datetime="2026-11-23T21:52:42">November 23, 2026 · 9:52:42 PM</time>
+          <figcaption>
+            <strong>Skit activity</strong>
+            <time datetime="2026-11-23T21:12:00">Added November 23, 2026 · 9:12 PM</time>
             <div class="downloads video-actions">
               <button class="download secondary sound-toggle" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span>Enable sound</span></button>
-              <a class="download secondary" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.52.42%20PM.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
-              <a class="download" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.52.42%20PM.mp4" download="Shri-Multy-Services-Field-Video-9-52-42-PM.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
-            </div>
-            <p class="video-status" aria-live="polite" hidden></p>
-          </figcaption>
-        </figure>
-        <figure class="media-card">
-          <video controls playsinline preload="metadata" muted>
-            <source src="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.57.21%20PM.mp4" type="video/mp4">
-            Your browser does not support embedded video.
-          </video>
-          <figcaption><strong>Field video · 9:57:21 PM</strong><time datetime="2026-11-23T21:57:21">November 23, 2026 · 9:57:21 PM</time>
-            <div class="downloads video-actions">
-              <button class="download secondary sound-toggle" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span>Enable sound</span></button>
-              <a class="download secondary" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.57.21%20PM.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
-              <a class="download" href="Photoes/WhatsApp%20Unknown%202026-11-23%20at%209.59.29%20PM/WhatsApp%20Video%202026-11-23%20at%209.57.21%20PM.mp4" download="Shri-Multy-Services-Field-Video-9-57-21-PM.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
+              <a class="download secondary" href="Photoes/Skit%20Activity.mp4" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-play"></i> Open video player</a>
+              <a class="download" href="Photoes/Skit%20Activity.mp4" download="Shri-Multy-Services-Skit-Activity.mp4"><i class="fa-solid fa-download"></i> Download video (MP4)</a>
             </div>
             <p class="video-status" aria-live="polite" hidden></p>
           </figcaption>
@@ -563,15 +602,14 @@
     <section id="card-panel" role="tabpanel" aria-labelledby="card-tab" hidden>
       <div class="card-layout">
         <div class="visiting-card">
-          <img src="Visiting%20card/00100.png" alt="Shri Multy Services visiting card, front and back">
+          <img src="Visiting%20card/current-card-preview.png" alt="Shri Multy Services visiting card">
         </div>
         <div class="card-copy">
           <span class="eyebrow">Save our contact details</span>
-          <h2>Shri Multy Services visiting card</h2>
-          <p>Download the supplied card artwork in PNG or JPEG format.</p>
+            <h2>Shri Multy Services visiting card</h2>
+            <p>Preview the supplied card and download this image.</p>
           <div class="downloads">
-            <a class="download" href="Visiting%20card/00100.png" download="Shri-Multy-Services-Visiting-Card.png"><i class="fa-solid fa-download"></i> Download PNG</a>
-            <a class="download secondary" href="Visiting%20card/0000202.jpg.jpeg" download="Shri-Multy-Services-Visiting-Card.jpeg"><i class="fa-solid fa-download"></i> Download JPEG</a>
+              <a class="download" href="Visiting%20card/current-card-preview.png" download="Shri-Multy-Services-Visiting-Card.png"><i class="fa-solid fa-download"></i> Download card</a>
           </div>
         </div>
       </div>
@@ -582,6 +620,7 @@
 
   <footer>Shri Multy Services · Amravati, Maharashtra</footer>
 
+  <script src="media-gallery.js"></script>
   <script>
     const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
     const videos = Array.from(document.querySelectorAll('.video-grid video'));
@@ -652,10 +691,7 @@
         item.tabIndex = selected ? 0 : -1;
         document.getElementById(item.dataset.panel).hidden = !selected;
       });
-      if (tab.dataset.panel === 'videos-panel') {
-        const activeVideo = videos.find((video) => !video.paused && !video.ended) || videos[0];
-        if (activeVideo.paused) startVideo(activeVideo);
-      } else {
+      if (tab.dataset.panel !== 'videos-panel') {
         videos.forEach((video) => video.pause());
       }
     };
@@ -678,9 +714,9 @@
 
     const initialTab = window.location.hash === '#visiting-card'
       ? document.getElementById('card-tab')
-      : window.location.hash === '#photos'
-        ? document.getElementById('photos-tab')
-        : document.getElementById('videos-tab');
+      : window.location.hash === '#videos'
+        ? document.getElementById('videos-tab')
+        : document.getElementById('photos-tab');
     selectTab(initialTab);
   </script>
 </body>
